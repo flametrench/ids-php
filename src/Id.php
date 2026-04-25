@@ -128,6 +128,60 @@ final class Id
     }
 
     /**
+     * Decode a Flametrench wire-format ID without checking the registered-type set.
+     *
+     * Use this for backend storage adapters that need to convert wire-format
+     * object IDs to canonical UUIDs without knowing the application's
+     * domain types in advance — e.g., when an authz tuple has
+     * objectType: "proj" and objectId: "proj_0190f2a8...".
+     *
+     * Validates wire-format shape (separator, 32-char lowercase hex, version
+     * nibble 1–8). Does NOT consult the registered TYPES set. See
+     * spec/docs/ids.md.
+     *
+     * @return array{type: string, uuid: string}
+     *
+     * @throws InvalidIdException If the ID's structure is malformed. Never
+     *                            throws InvalidTypeException.
+     */
+    public static function decodeAny(string $id): array
+    {
+        $parts = explode('_', $id, 2);
+
+        if (count($parts) !== 2) {
+            throw new InvalidIdException("ID missing type separator: {$id}");
+        }
+
+        [$type, $hex] = $parts;
+
+        if ($type === '') {
+            throw new InvalidIdException("ID has empty type prefix: {$id}");
+        }
+
+        if (preg_match('/^[0-9a-f]{32}$/', $hex) !== 1) {
+            throw new InvalidIdException("ID payload is not 32 lowercase hex characters: {$id}");
+        }
+
+        if (strpos('12345678', $hex[12]) === false) {
+            throw new InvalidIdException("ID payload is not a valid UUID: {$id}");
+        }
+
+        $canonical = sprintf(
+            '%s-%s-%s-%s-%s',
+            substr($hex, 0, 8),
+            substr($hex, 8, 4),
+            substr($hex, 12, 4),
+            substr($hex, 16, 4),
+            substr($hex, 20, 12),
+        );
+
+        return [
+            'type' => $type,
+            'uuid' => $canonical,
+        ];
+    }
+
+    /**
      * Check whether a string is a valid Flametrench wire-format ID.
      *
      * Optionally asserts that the ID is of a specific type.
@@ -159,6 +213,23 @@ final class Id
     public static function typeOf(string $id): string
     {
         return self::decode($id)['type'];
+    }
+
+    /**
+     * Predicate counterpart to {@see decodeAny()}. Returns true for any
+     * well-formed wire-format ID regardless of registry membership.
+     *
+     * Use this when validating input from external systems that may
+     * legitimately reference application-defined object types.
+     */
+    public static function isValidShape(string $id): bool
+    {
+        try {
+            self::decodeAny($id);
+            return true;
+        } catch (InvalidIdException) {
+            return false;
+        }
     }
 
     /**
