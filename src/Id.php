@@ -50,6 +50,8 @@ final class Id
         'ses' => 'session',
         'cred' => 'credential',
         'tup' => 'authorization_tuple',
+        // v0.2 — Proposed (ADR 0008)
+        'mfa' => 'mfa_factor',
     ];
 
     private function __construct() {}
