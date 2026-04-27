@@ -52,6 +52,8 @@ final class Id
         'tup' => 'authorization_tuple',
         // v0.2 — Proposed (ADR 0008)
         'mfa' => 'mfa_factor',
+        // v0.2 — Proposed (ADR 0012)
+        'shr' => 'share_token',
     ];
 
     private function __construct() {}
