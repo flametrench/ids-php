@@ -1,5 +1,7 @@
 # flametrench/ids
 
+[![CI](https://github.com/flametrench/ids-php/actions/workflows/ci.yml/badge.svg)](https://github.com/flametrench/ids-php/actions/workflows/ci.yml)
+
 Prefixed wire-format identifiers for [Flametrench](https://github.com/flametrench/spec).
 
 ```php
