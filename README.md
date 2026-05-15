@@ -49,8 +49,11 @@ The specification reserves the following prefixes:
 | `tup`  | Authorization tuple | v0.1         |
 | `mfa`  | MFA factor          | v0.2         |
 | `shr`  | Share token         | v0.2         |
+| `pat`  | Personal access token | v0.3       |
 
 Implementations must not invent prefixes outside the specification. New prefixes are added through the specification's RFC process.
+
+**Status:** v0.3.0 (stable). Tracks the spec at v0.3.0; the `pat_` prefix lands in v0.3 via [ADR 0016](https://github.com/flametrench/spec/blob/main/decisions/0016-personal-access-tokens.md).
 
 ## Testing
 
