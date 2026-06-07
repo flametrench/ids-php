@@ -56,6 +56,8 @@ final class Id
         'shr' => 'share_token',
         // v0.3 — Proposed (ADR 0016)
         'pat' => 'personal_access_token',
+        // v0.4 — Proposed (ADR 0019)
+        'aud' => 'audit_event',
     ];
 
     private function __construct() {}
