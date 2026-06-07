@@ -123,3 +123,14 @@ describe("Conformance · {$typeOf['capability']}.{$typeOf['operation']} [{$typeO
         });
     }
 });
+
+// ─── ids.registered_prefixes (v0.4 guard) ───
+
+$registeredPrefixes = loadFixture('ids/registered-prefixes.json');
+describe("Conformance · {$registeredPrefixes['capability']}.{$registeredPrefixes['operation']} [{$registeredPrefixes['conformance_level']}] · registered-prefixes", function () use ($registeredPrefixes) {
+    foreach ($registeredPrefixes['tests'] as $test) {
+        it("[{$test['id']}] {$test['description']}", function () use ($test) {
+            expect(Id::typeOf($test['input']['id']))->toBe($test['expected']['result']);
+        });
+    }
+});
