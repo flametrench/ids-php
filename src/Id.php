@@ -58,6 +58,12 @@ final class Id
         'pat' => 'personal_access_token',
         // v0.4 — Proposed (ADR 0019)
         'aud' => 'audit_event',
+        // v0.4 — Proposed (ADR 0020)
+        'file' => 'file_metadata',
+        // v0.4 — Proposed (ADR 0021)
+        'flag' => 'feature_flag',
+        // v0.4 — Proposed (ADR 0022)
+        'not'  => 'notification',
     ];
 
     private function __construct() {}
